@@ -55,6 +55,7 @@ import com.alibaba.druid.support.json.JSONWriter;
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
 import com.alibaba.druid.support.profile.Profiler;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author wenshao [szujobs@hotmail.com]
@@ -483,6 +484,9 @@ public class StatFilter extends FilterEventAdapter implements StatFilterMBean {
                 sqlStat.setLastSlowParameters(slowParameters);
 
                 String lastExecSql = statement.getLastExecuteSql();
+                if (StringUtils.isNotEmpty(lastExecSql)) {
+                    lastExecSql=lastExecSql.replaceAll("\n", " ");
+                }
                 if (logSlowSql) {
                     LOG.error("slow sql " + millis + " millis. " + lastExecSql + "" + slowParameters);
                 }
